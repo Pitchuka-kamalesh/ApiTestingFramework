@@ -1,6 +1,7 @@
 package utills;
 
 
+import com.varibles.ConfigProperties;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -12,19 +13,18 @@ import java.io.FileReader;
 import java.time.Duration;
 import java.util.Properties;
 
+import static com.varibles.ConfigProperties.properties;
+
 public class BaseClass {
     public static WebDriver driver;
-    protected static Properties properties;
+    public static Properties excel_properties,locators_properties;
 
-
-    public static void loadProperties(String fileName){
-        try {
-            properties = new Properties();
-            properties.load(new FileReader(fileName));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public BaseClass(){
+        ConfigProperties.initializePropertiesFile();
+        excel_properties = ConfigProperties.initializePropertiesFile(properties.getProperty("Excel_Property_File"));
+        locators_properties = ConfigProperties.initializePropertiesFile(properties.getProperty("Locators_Property_File"));
     }
+
 
     public static void launchApp(String browserName, String url) {
         switch (browserName) {
@@ -70,15 +70,21 @@ public class BaseClass {
 //        driver.quit();
     }
 
-    public static String getValues(String key) throws Exception {
+    public static String status(int status) {
 
-        String value = properties.getProperty(key);
-        if (value == null){
-            throw new Exception("the given key '"+key+"' is not present in the properties file");
-        }else {
-            return value;
+        switch (status){
+
+            case -1:
+                return "CREATED";
+            case  1:
+                return "Pass";
+            case  2:
+                return "Fail";
+            case  3:
+                return "skip";
         }
 
+        return null;
     }
 
 

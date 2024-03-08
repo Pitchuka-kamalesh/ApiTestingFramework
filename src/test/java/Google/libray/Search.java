@@ -20,18 +20,12 @@ import static com.excel.examples.ReadData.excelProp;
 public class Search extends BaseClass {
     ReadData data;
     List<String> values;
-    Properties properties;
     @BeforeTest
     public void setUp(){
 
         data = new ReadData();
 
     }
-
-
-
-
-
     @Test
     public void testSearch(){
 
@@ -51,7 +45,6 @@ public class Search extends BaseClass {
     @AfterMethod
     public void teardown(ITestResult result) {
 
-
         driver.quit();
         try {
             data.setData(values, status(result.getStatus()),excelProp.getProperty("Excel_Sheet_Name"), Integer.parseInt(excelProp.getProperty("Valid_Col")));
@@ -62,21 +55,6 @@ public class Search extends BaseClass {
 
     }
 
-    private String status(int status) {
 
-        switch (status){
-
-            case -1:
-                return "CREATED";
-            case  1:
-                return "Pass";
-            case  2:
-                return "Fail";
-            case  3:
-                return "skip";
-        }
-
-        return null;
-    }
 
 }

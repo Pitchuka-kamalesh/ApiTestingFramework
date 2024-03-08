@@ -21,6 +21,18 @@ public class ConfigProperties {
 
     }
 
+    public static Properties initializePropertiesFile(String configFile){
+        Properties properties = new Properties();
+        try {
+            InputStream ip = new FileInputStream(configFile);
+            properties.load(ip);
+            return properties;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 
 
 
