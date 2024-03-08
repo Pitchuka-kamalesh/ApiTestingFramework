@@ -8,9 +8,9 @@ public class Triangle {
 
         int k = 5;
         Triangle tri = new Triangle();
-//        tri.rightTriangle(k);
+        tri.rightTriangle(k);
 //        tri.leftTriangle(k);
-        tri.primed(k);
+//        tri.primed(k);
 
 
     }

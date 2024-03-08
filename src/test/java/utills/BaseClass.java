@@ -3,58 +3,30 @@ package utills;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
+import java.io.FileReader;
 import java.time.Duration;
+import java.util.Properties;
 
 public class BaseClass {
     public static WebDriver driver;
+    protected static Properties properties;
+
+
+    public static void loadProperties(String fileName){
+        try {
+            properties = new Properties();
+            properties.load(new FileReader(fileName));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static void launchApp(String browserName, String url) {
-    /*    if(browserName.equals("chrome")){
-            System.out.println("We are in the " + " " + browserName + "browser");
-            driver = new ChromeDriver();
-            setup(url);
-
-        }else {
-            if(browserName.equals("edge")){
-                System.out.println("We are in the " + " " + browserName + "browser");
-                driver = new EdgeDriver();
-                setup(url);
-
-
-            }else{
-                if(browserName.equals("firefox")){
-                    System.out.println("We are in the " + " " + browserName + "browser");
-                    driver = new FirefoxDriver();
-                    setup(url);
-
-
-                }else{
-                    if(browserName.equals("ie")){
-                        System.out.println("We are in the " + " " + browserName + "browser");
-                        driver = new InternetExplorerDriver();
-                        setup(url);
-
-
-                    }else{
-
-                        System.out.println("There is no implementation for the given browser" + " :" + browserName);
-
-
-
-                    }
-
-                }
-
-            }
-
-
-        }*/
-
-
         switch (browserName) {
             case "chrome":
                 System.out.println("We are in the " + " " + browserName + "browser");
@@ -97,4 +69,17 @@ public class BaseClass {
         driver.close();
 //        driver.quit();
     }
+
+    public static String getValues(String key) throws Exception {
+
+        String value = properties.getProperty(key);
+        if (value == null){
+            throw new Exception("the given key '"+key+"' is not present in the properties file");
+        }else {
+            return value;
+        }
+
+    }
+
+
 }
