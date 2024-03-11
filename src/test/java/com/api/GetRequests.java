@@ -15,6 +15,7 @@ public class GetRequests {
     public ResponseBody body;
     public JsonPath jsonPath;
     public JsonObject requestPrams;
+    public  int id;
 
     @Test
     public void get_Products_api(){
@@ -46,7 +47,28 @@ public class GetRequests {
         System.out.println(response.getStatusCode());
         System.out.println(response.getStatusLine());
         body.prettyPrint();
+        System.out.println(jsonPath.getJsonObject("id").toString());
+        id = jsonPath.getJsonObject("id");
 
+
+    }
+
+    @Test
+    public void get_Products_api_id(){
+        int id = 1;
+
+        RestAssured.baseURI = baseURI;
+        httpRequest = RestAssured.given();
+        response = httpRequest.get("products/"+id);
+        body = response.getBody();
+        jsonPath = response.jsonPath();
+        String title = jsonPath.getString("title");
+        System.out.println(title);
+
+//        System.out.println(response.getHeaders().toString());
+//        System.out.println("<----------------              --------------->");
+//        System.out.println(response.getStatusLine());
+//        System.out.println(body.prettyPrint());
     }
 
 }
