@@ -12,8 +12,9 @@ public class GetRequests {
     public String baseURI ="https://fakestoreapi.com/";
     public RequestSpecification httpRequest;
     public Response response;
-
     public ResponseBody body;
+    public JsonPath jsonPath;
+    public JsonObject requestPrams;
 
     @Test
     public void get_Products_api(){
@@ -21,8 +22,8 @@ public class GetRequests {
         RestAssured.baseURI = baseURI;
         httpRequest = RestAssured.given();
         response = httpRequest.get("products");
-        ResponseBody body = response.getBody();
-        JsonPath jsonPath = response.jsonPath();
+        body = response.getBody();
+        jsonPath = response.jsonPath();
         System.out.println(jsonPath.getJsonObject("[0]").toString());
         System.out.println(response.getHeaders().toString());
     }
@@ -39,13 +40,12 @@ public class GetRequests {
         requestPrams.addProperty(" image","https://i.pravatar.cc");
         requestPrams.addProperty("category","electronic");
         httpRequest.body(requestPrams);
-        Response response = httpRequest.post("products");
-        ResponseBody body = response.getBody();
-        JsonPath jsonPath = response.jsonPath();
-        System.out.println(response.getHeaders().toString());
+        response = httpRequest.post("products");
+        body = response.getBody();
+        jsonPath = response.jsonPath();
         System.out.println(response.getStatusCode());
         System.out.println(response.getStatusLine());
-        System.out.println(body.prettyPrint());
+        body.prettyPrint();
 
     }
 
