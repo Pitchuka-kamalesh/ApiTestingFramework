@@ -80,8 +80,8 @@ public class GetRequests {
     @Test
     public void authentication_For_Token() {
         properties = new Properties();
-        try {
-            properties.load(new FileInputStream("configuration/configuration.properties"));
+        try(FileInputStream fi = new FileInputStream("configuration/configuration.properties")) {
+            properties.load(fi);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
