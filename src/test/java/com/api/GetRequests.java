@@ -70,9 +70,11 @@ public class GetRequests {
 
         RestAssured.baseURI = baseURI;
         httpRequest = RestAssured.given();
-        response = httpRequest.get("products/" + id);
+        httpRequest.pathParam("id",id);
+        response = httpRequest.get("products/{id}" );
         body = response.getBody();
         jsonPath = response.jsonPath();
+        body.prettyPrint();
         String title = jsonPath.getString("title");
         System.out.println(title);
     }
