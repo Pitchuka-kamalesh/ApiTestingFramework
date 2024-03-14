@@ -4,18 +4,21 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
+import org.apache.log4j.Logger;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+import utills.BaseClass;
 
 public class ExtentsListeners implements ITestListener {
     private ExtentReports extent;
     private ExtentTest test;
+    public static Logger logger;
 
 
     @Override
     public void onStart(ITestContext context) {
-        String reportPath = "path/to/extent/report.html";
+        String reportPath = "reports/extent/report.html";
         ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(reportPath);
         extent = new ExtentReports();
         extent.attachReporter(htmlReporter);
@@ -28,7 +31,9 @@ public class ExtentsListeners implements ITestListener {
 
     @Override
     public void onTestStart(ITestResult result) {
+        logger = Logger.getLogger(result.getClass());
         test = extent.createTest(result.getMethod().getMethodName());
+        logger.info(result.getMethod().getMethodName());
     }
 
     @Override

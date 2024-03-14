@@ -1,4 +1,4 @@
-package com.varibles;
+package utills;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

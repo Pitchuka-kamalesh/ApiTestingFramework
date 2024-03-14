@@ -9,13 +9,10 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import utills.BaseClass;
 
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
-import static com.excel.examples.ReadData.excelProp;
-import static com.varibles.ConfigProperties.properties;
+import static utills.ConfigProperties.properties;
 
 
 public class Search extends BaseClass {

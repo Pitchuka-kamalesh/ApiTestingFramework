@@ -6,3 +6,5 @@
 2024-03-14 19:21:31 INFO  BaseClass:34 - Opening the:chrome Browser
 2024-03-14 19:21:31 INFO  BaseClass:35 - The Application url:https://www.capgemini.com
 2024-03-14 19:21:32 INFO  BaseClass:50 - We closed the driver instance
+2024-03-14 19:42:34 INFO  TestResult:36 - authValidate
+2024-03-14 19:44:35 INFO  TestResult:36 - authValidate
