@@ -2,14 +2,15 @@ package utills;
 
 
 import com.varibles.ConfigProperties;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.testng.annotations.BeforeSuite;
 
-import java.io.FileReader;
 import java.time.Duration;
 import java.util.Properties;
 
@@ -18,15 +19,20 @@ import static com.varibles.ConfigProperties.properties;
 public class BaseClass {
     public static WebDriver driver;
     public static Properties excel_properties,locators_properties;
+    public final static Logger logger = Logger.getLogger(BaseClass.class);
 
-    public BaseClass(){
+    @BeforeSuite
+    public void configuration(){
         ConfigProperties.initializePropertiesFile();
         excel_properties = ConfigProperties.initializePropertiesFile(properties.getProperty("Excel_Property_File"));
         locators_properties = ConfigProperties.initializePropertiesFile(properties.getProperty("Locators_Property_File"));
+
     }
 
 
+
     public static void launchApp(String browserName, String url) {
+
         switch (browserName) {
             case "chrome":
                 System.out.println("We are in the " + " " + browserName + "browser");

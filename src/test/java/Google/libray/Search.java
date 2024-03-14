@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Properties;
 
 import static com.excel.examples.ReadData.excelProp;
+import static com.varibles.ConfigProperties.properties;
 
 
 public class Search extends BaseClass {
@@ -29,13 +30,13 @@ public class Search extends BaseClass {
     @Test
     public void testSearch(){
 
-        launchApp(null,null);
+        launchApp(properties.getProperty("Browser"),properties.getProperty("AppUrl"));
+        logger.info("Opening the:"+properties.getProperty("Browser")+" Browser");
+        logger.info("The Application url:"+properties.getProperty("AppUrl"));
         List<WebElement> footer = driver.findElements(By.xpath("//ul[@id = 'menu-footer-menu']//descendant::ul[@class='sub-menu']//a"));
-
         values = new ArrayList<>();
         for (WebElement els:footer){
             values.add(els.getText());
-            System.out.println(values);
         }
 
 
@@ -44,14 +45,8 @@ public class Search extends BaseClass {
 
     @AfterMethod
     public void teardown(ITestResult result) {
-
         driver.quit();
-        try {
-            data.setData(values, status(result.getStatus()),excelProp.getProperty("Excel_Sheet_Name"), Integer.parseInt(excelProp.getProperty("Valid_Col")));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
+        logger.info("We closed the driver instance");
 
     }
 
