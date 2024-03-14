@@ -1,11 +1,13 @@
 package com.api;
 
+import com.api.listners.ExtentsListeners;
 import com.google.gson.JsonObject;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
 import io.restassured.specification.RequestSpecification;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.io.FileInputStream;
@@ -13,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+@Listeners(ExtentsListeners.class)
 public class GetRequests {
     public String baseURI = "https://fakestoreapi.com/";
     public RequestSpecification httpRequest;
