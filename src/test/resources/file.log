@@ -8,3 +8,8 @@
 2024-03-14 19:21:32 INFO  BaseClass:50 - We closed the driver instance
 2024-03-14 19:42:34 INFO  TestResult:36 - authValidate
 2024-03-14 19:44:35 INFO  TestResult:36 - authValidate
+2024-03-14 20:12:02 INFO  TestResult:36 - authValidate
+2024-03-14 20:12:07 INFO  TestResult:36 - authentication_For_Token
+2024-03-14 20:12:09 INFO  TestResult:36 - get_Products_api
+2024-03-14 20:12:10 INFO  TestResult:36 - get_Products_api_id
+2024-03-14 20:12:10 INFO  TestResult:36 - post_Product

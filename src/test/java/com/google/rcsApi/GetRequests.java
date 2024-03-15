@@ -1,6 +1,6 @@
-package com.api;
+package com.google.rcsApi;
 
-import com.api.listners.ExtentsListeners;
+import com.google.listners.ExtentsListeners;
 import com.google.gson.JsonObject;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;

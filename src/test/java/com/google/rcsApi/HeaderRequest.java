@@ -1,4 +1,4 @@
-package com.api;
+package com.google.rcsApi;
 
 public class HeaderRequest {
 }
