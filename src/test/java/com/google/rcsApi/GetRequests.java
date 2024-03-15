@@ -9,15 +9,18 @@ import io.restassured.response.ResponseBody;
 import io.restassured.specification.RequestSpecification;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+import utills.ExtentReportManagerTest;
+import utills.RestUtils;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
 @Listeners(ExtentsListeners.class)
 public class GetRequests {
-    public String baseURI = "https://fakestoreapi.com/";
+    public String baseURI = "https://restful-booker.herokuapp.com/";
     public RequestSpecification httpRequest;
     public Response response;
     public ResponseBody body;
@@ -31,9 +34,11 @@ public class GetRequests {
 
         RestAssured.baseURI = baseURI;
         httpRequest = RestAssured.given();
-        response = httpRequest.get("products");
+        response = httpRequest.get("booking");
+        RestUtils.printRequestLogInReport(httpRequest);
         body = response.getBody();
         jsonPath = response.jsonPath();
+        RestUtils.printResponseLogInReport(response);
         System.out.println(jsonPath.getJsonObject("[0]").toString());
         System.out.println(response.getHeaders().toString());
     }
@@ -53,7 +58,10 @@ public class GetRequests {
         requestPrams.addProperty("category", "electronic");
         httpRequest.body(requestPrams);
 
+        RestUtils.printRequestLogInReport(httpRequest);
+
         response = httpRequest.post("products");
+        RestUtils.printResponseLogInReport(response);
 
 
         body = response.getBody();
@@ -135,12 +143,26 @@ public class GetRequests {
     }
 
     public void loadProperties(){
-        properties = new Properties();
+        Properties properties = new Properties();
         try {
             properties.load(new FileInputStream("configuration/configuration.properties"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void writeProperty(String key,String value) throws IOException {
+
+        Properties properties = new Properties();
+        properties.load(new FileInputStream("configuration/configuration.properties"));
+        properties.setProperty(key, value);
+        try(FileOutputStream outputStream = new FileOutputStream("configuration/configuration.properties")){
+            properties.store(outputStream,"Enter the api token value");
+        }catch (Throwable e){
+            e.printStackTrace();
+        }
+
+
     }
 
 }
