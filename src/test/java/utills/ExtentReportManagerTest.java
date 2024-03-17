@@ -9,6 +9,10 @@ import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.google.listners.ExtentsListeners;
 import com.utills.Setup;
 import io.restassured.http.Header;
+import io.restassured.response.Response;
+import io.restassured.specification.QueryableRequestSpecification;
+import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.SpecificationQuerier;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -32,8 +36,8 @@ public class ExtentReportManagerTest {
     public static String getReportNameWithTimeStamp() {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
         LocalDateTime localDateTime = LocalDateTime.now();
-        String datetime = dateTimeFormatter.format(localDateTime);
-        return "reports/extent/" + datetime + ".html";
+        String datetime = "Report_"+dateTimeFormatter.format(localDateTime);
+        return "reports/extent/" +datetime + ".html";
     }
 
     public static void logPassDetails(String log) {
@@ -75,6 +79,24 @@ public class ExtentReportManagerTest {
         String[][] arrayHeaders = headersList.stream().map(header -> new String[] {header.getName(), header.getValue()}).toArray(String[][] :: new);
         ExtentsListeners.extentTest.get().info(MarkupHelper.createTable(arrayHeaders));
 
+    }
+
+    public static void printRequestLogInReport(RequestSpecification requestSpecification) {
+        QueryableRequestSpecification queryableRequestSpecification = SpecificationQuerier.query(requestSpecification);
+        ExtentReportManagerTest.logInfoDetails("Endpoint is " + queryableRequestSpecification.getURI());
+        ExtentReportManagerTest.logInfoDetails("Method is " + queryableRequestSpecification.getMethod());
+        ExtentReportManagerTest.logInfoDetails("Headers are ");
+        ExtentReportManagerTest.logHeaders(queryableRequestSpecification.getHeaders().asList());
+        ExtentReportManagerTest.logInfoDetails("Request body is ");
+        ExtentReportManagerTest.logJson(queryableRequestSpecification.getBody());
+    }
+
+    public static void printResponseLogInReport(Response response) {
+        ExtentReportManagerTest.logInfoDetails("Response status is " + response.getStatusCode());
+        ExtentReportManagerTest.logInfoDetails("Response Headers are ");
+        ExtentReportManagerTest.logHeaders(response.getHeaders().asList());
+        ExtentReportManagerTest.logInfoDetails("Response body is ");
+        ExtentReportManagerTest.logJson(response.getBody().prettyPrint());
     }
 
 }

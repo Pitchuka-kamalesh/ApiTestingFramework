@@ -1,7 +1,10 @@
-package com.google.rcsApi;
+package com.google.bugle;
 
+import com.google.gson.Gson;
 import com.google.listners.ExtentsListeners;
 import com.google.gson.JsonObject;
+import com.google.pojo.Booking;
+import com.google.pojo.BookingDates;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -16,7 +19,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Properties;
+
+import static utills.ExtentReportManagerTest.printRequestLogInReport;
+import static utills.ExtentReportManagerTest.printResponseLogInReport;
 
 @Listeners(ExtentsListeners.class)
 public class GetRequests {
@@ -35,10 +42,10 @@ public class GetRequests {
         RestAssured.baseURI = baseURI;
         httpRequest = RestAssured.given();
         response = httpRequest.get("booking");
-        RestUtils.printRequestLogInReport(httpRequest);
+        printRequestLogInReport(httpRequest);
         body = response.getBody();
         jsonPath = response.jsonPath();
-        RestUtils.printResponseLogInReport(response);
+        printResponseLogInReport(response);
         System.out.println(jsonPath.getJsonObject("[0]").toString());
         System.out.println(response.getHeaders().toString());
     }
@@ -46,22 +53,18 @@ public class GetRequests {
     @Test
     public void post_Product() {
 
-        RestAssured.baseURI = baseURI;
         RequestSpecification httpRequest = RestAssured.given();
 
+        BookingDates bookingDates = new BookingDates("2024-05-05","2024-05-07");
+        Booking booking = new Booking("kamal","pitchuka",1000,true,bookingDates,"Big bowl");
 
-        JsonObject requestPrams = new JsonObject();
-        requestPrams.addProperty("title", "test product");
-        requestPrams.addProperty("price", "13.5");
-        requestPrams.addProperty("description", "lorem ipsum set");
-        requestPrams.addProperty(" image", "https://i.pravatar.cc");
-        requestPrams.addProperty("category", "electronic");
-        httpRequest.body(requestPrams);
+        Gson gson = new Gson();
+        String requestBody = gson.toJson(booking);
 
-        RestUtils.printRequestLogInReport(httpRequest);
-
-        response = httpRequest.post("products");
-        RestUtils.printResponseLogInReport(response);
+        httpRequest.body(requestBody);
+        printRequestLogInReport(httpRequest);
+        response = httpRequest.post("https://restful-booker.herokuapp.com/booking");
+        printResponseLogInReport(response);
 
 
         body = response.getBody();
@@ -69,8 +72,6 @@ public class GetRequests {
         System.out.println(response.getStatusCode());
         System.out.println(response.getStatusLine());
         body.prettyPrint();
-        System.out.println(jsonPath.getJsonObject("id").toString());
-        id = jsonPath.getJsonObject("id");
 
 
     }
@@ -142,8 +143,8 @@ public class GetRequests {
 
     }
 
-    public void loadProperties(){
-        Properties properties = new Properties();
+    public static void loadProperties(){
+        properties = new Properties();
         try {
             properties.load(new FileInputStream("configuration/configuration.properties"));
         } catch (IOException e) {
